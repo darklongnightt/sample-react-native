@@ -7,9 +7,8 @@ import AddTodo from './components/AddTodo';
 
 export default function App() {
   const [todolist, setTodoList] = useState([
-    { todo: 'Learn react native', id: '1' },
-    { todo: 'Practice handstand', id: '2' },
-    { todo: 'Go eat lunch', id: '4' },
+    { todo: 'King cain gold', id: '1' },
+    { todo: 'Doggo', id: '2' },
   ]);
 
   const addTodo = (todo) => {
