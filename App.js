@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Button, TextInput, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, Keyboard, TouchableWithoutFeedback, Alert } from 'react-native';
 import { randomId } from './utils/Generator';
 import Header from './components/Header';
 import TodoItem from './components/TodoItem';
@@ -9,12 +9,24 @@ export default function App() {
   const [todolist, setTodoList] = useState([
     { todo: 'King cain gold', id: '1' },
     { todo: 'Doggo', id: '2' },
+    { todo: 'Shiba inu', id: '3' },
+    { todo: 'Prince zuko', id: '4' },
   ]);
 
   const addTodo = (todo) => {
-    setTodoList((prevState) => {
-      return [{ todo: todo, id: randomId() }, ...prevState]
-    })
+    if (todo.length > 3) {
+      setTodoList((prevState) => {
+        return [{ todo: todo, id: randomId() }, ...prevState]
+      })
+    } else {
+      Alert.alert('Opps', 'Dog name must be over 3 characters long!', [
+        {
+          title: 'Okay',
+          onPress: () => { console.log('dismissed alert') }
+        }
+      ])
+    }
+
   }
 
   const removeTodo = (id) => {
@@ -28,23 +40,26 @@ export default function App() {
   }, [todolist])
 
   return (
-    <View style={styles.container}>
-      <Header />
-      <AddTodo addTodo={addTodo} />
-      <FlatList
-        data={todolist}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TodoItem item={item} removeTodo={removeTodo} />
-        )}
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
+      <View style={styles.container}>
+        <Header />
+        <AddTodo addTodo={addTodo} />
+        <FlatList
+          data={todolist}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TodoItem item={item} removeTodo={removeTodo} />
+          )}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
+    flex: 1,
+    paddingVertical: 20,
   },
   submitButton: {
     margin: 10,
